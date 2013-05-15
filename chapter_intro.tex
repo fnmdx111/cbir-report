@@ -28,14 +28,14 @@
 \label{sec:sys-impl-spec}
 \begin{itemize}
 \item 整个系统构建于经过广大用户验证过的开源库或开源程序上，可以保证软
-  件基础设施的安全性。
+件基础设施的安全性。
 \item 系统构架为客户端/服务端，其中交互使用经过广泛使用的HTTP协议，使
-  一个服务器可以支持多个客户端同时访问，同时不增加服务端的程序复杂性。
+一个服务器可以支持多个客户端同时访问，同时不增加服务端的程序复杂性。
 \item 服务端使用简洁的Flask框架和支持高并发的tornado库，高效可靠。
 \item 客户端使用了跨平台的Qt框架作为前端，内核算法使用了实现了多种快速
-  算法的OpenCV库和numpy库。
+算法的OpenCV库和numpy库。
 \item 客户端服务端的内核与前端分开，耦合度低，用户可以方便的进行二次开
-  发。
+发。
 \end{itemize}
 
 \section{相关工作}
@@ -49,7 +49,7 @@
 量聚集性质的、存在快速算法的数学变换。其公式如下：
 \begin{displaymath}
 X_k = \frac1 2 \left[x_0 + \left(-1\right)^k x_{N - 1}\right] + \sum_{n = 1}^{N - 2} x_n \cos \left(
-\frac{\pi} {N - 1} n k \right) & \qquad k = 0, \dotsc, N - 1
+        \frac{\pi} {N - 1} n k \right) & \qquad k = 0, \dotsc, N - 1
 \end{displaymath}
 
 JPEG图片格式利用了人眼对低频信号敏感、对高频信号不敏感的特点对高频信号
@@ -60,7 +60,7 @@ JPEG图片格式利用了人眼对低频信号敏感、对高频信号不敏感�
 二维DCT（DCT-II）公式如下：
 \begin{displaymath}
 X_k = \sum_{n = 0}^{N - 1} x_n \cos \left[\frac{\pi} N \left(n +
-\frac1 2\right) k\right] & \qquad k = 0, \dotsc, N - 1
+        \frac1 2\right) k\right] & \qquad k = 0, \dotsc, N - 1
 \end{displaymath}
 
 在DCT-II中，输入矩阵$I$的能量被充分聚集到了左上角，其中输出矩阵$M$的
@@ -77,7 +77,7 @@ Logistic映射（或称单峰映射）是一种二次的多项式映射，是实
 最简单的非线性差分方程之一\cite{yang2011}。这个映射因生物学家Robert
 May在1976年发表的一篇论文而著名。其公式如下：
 \begin{displaymath}
-  x_{n + 1} = rx_n(1 - x_n) & \qquad 0 < r \leq 4, r \in \mathbb{R}
+x_{n + 1} = rx_n(1 - x_n) & \qquad 0 < r \leq 4, r \in \mathbb{R}
 \end{displaymath}
 
 Logistic映射所构建的密钥序列具有良好的随机性和初值敏感性，当$r >

@@ -7,24 +7,24 @@
 \begin{figure}[h!]
 \centering
 \begin{tikzpicture}[
-  font=\sffamily,
-  every matrix/.style={ampersand replacement=\&,column sep=1cm,row sep=1cm},
-  source/.style={draw,thick,rounded corners,fill=red!20,inner sep=.3cm},
-  process/.style={draw,thick,rounded corners,inner sep=.3cm,fill=blue!20},
-  sink/.style={source,fill=green!20},
-  to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
-  every node/.style={align=center}]
+font=\sffamily,
+    every matrix/.style={ampersand replacement=\&,column sep=1cm,row sep=1cm},
+    source/.style={draw,thick,rounded corners,fill=red!20,inner sep=.3cm},
+    process/.style={draw,thick,rounded corners,inner sep=.3cm,fill=blue!20},
+    sink/.style={source,fill=green!20},
+    to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
+    every node/.style={align=center}]
 
-  % Position the nodes using a matrix layout
-  \matrix{
-    \node[source] (restoredimg) {还原图};
+    % Position the nodes using a matrix layout
+    \matrix{
+        \node[source] (restoredimg) {还原图};
         \& \node (hiddennodeclient) {};
         \& \node[source] (inputimg) {图像录入};
         \& \node[source] (rinputimg) {待检索图像}; \\
-    \node[process] (decimg) {解密 (逆置乱)};
+            \node[process] (decimg) {解密 (逆置乱)};
         \& \& \node[process] (correction) {矫正}; \& \\
-    \& \& \node[process] (encimg) {加密 (置乱)};
-       \& \node (crightbottom) {}; \\
+            \& \& \node[process] (encimg) {加密 (置乱)};
+        \& \node (crightbottom) {}; \\
     \node (hiddennodeserver) {};
        \& \& \node[process] (extfeat) {提取特征}; 
        \& \node[process] (extfeata) {提取特征}; \\
