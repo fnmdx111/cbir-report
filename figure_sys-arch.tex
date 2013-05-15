@@ -1,0 +1,72 @@
+% Data flow diagram
+% Author: David Fokkema
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[
+  font=\sffamily,
+  every matrix/.style={ampersand replacement=\&,column sep=1cm,row sep=1cm},
+  source/.style={draw,thick,rounded corners,fill=red!20,inner sep=.3cm},
+  process/.style={draw,thick,rounded corners,inner sep=.3cm,fill=blue!20},
+  sink/.style={source,fill=green!20},
+  to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
+  every node/.style={align=center}]
+
+  % Position the nodes using a matrix layout
+  \matrix{
+    \node[source] (restoredimg) {还原图};
+        \& \node (hiddennodeclient) {};
+        \& \node[source] (inputimg) {图像录入};
+        \& \node[source] (rinputimg) {待检索图像}; \\
+    \node[process] (decimg) {解密 (逆置乱)};
+        \& \& \node[process] (correction) {矫正}; \& \\
+    \& \& \node[process] (encimg) {加密 (置乱)};
+       \& \node (crightbottom) {}; \\
+    \node (hiddennodeserver) {};
+       \& \& \node[process] (extfeat) {提取特征}; 
+       \& \node[process] (extfeata) {提取特征}; \\
+    \node[source] (results) {匹配结果};
+        \& \node[sink] (imgdb) {图片数据库};
+        \& \node[sink] (featdb) {特征数据库};
+        \& \node (rightbottom) {}; \\
+  };
+
+  \path (hiddennodeclient.south) + (0, -1.0) node (client)
+      {\Large \emph{客户端}};
+  \path (hiddennodeserver.east) + (1.7, -0.2) node (server) {\Large
+     \emph{服务端}};
+
+  % Draw the arrows between the nodes and label them.
+  \draw[to] (decimg) -- (restoredimg);
+  \draw[to] (results) -- (decimg);
+  \draw[to] (inputimg) -- (correction);
+  \draw[to] (correction) -- (encimg);
+  \draw[to] (encimg) -| node[midway, above] {加入} (imgdb);
+  \draw[to] (encimg) -- (extfeat);
+  \draw[to] (extfeat) -- node[midway, left] {加入} (featdb);
+  \draw[to] (rinputimg) -- (extfeata);
+  \draw[to] (extfeata) |- node[midway, below] {比对} (featdb);
+  \draw[to] (featdb) -- (imgdb);
+  \draw[to] (imgdb) -- (results);
+
+  \begin{pgfonlayer}{background}
+    \path (decimg.west |- rinputimg.north) + (-0.3, 0.3) node
+    (a) {};
+    \path (encimg.south -| rinputimg.east) + (+0.3, -0.3) node (b)
+    {};
+    \path[fill=yellow!20, rounded corners, draw=black!50, dashed] (a)
+    rectangle (b);
+    \path (extfeat.north -| extfeata.east) + (+0.5, +0.3) node (a) {};
+    \path (results.west |- imgdb.south) + (-0.7, -0.3) node (b) {};
+    \path[fill=yellow!20, rounded corners, draw=black!50, dashed] (a)
+    rectangle (b);
+  \end{pgfonlayer}
+
+\end{tikzpicture}
+
+\caption{系统架构图示}
+\end{figure}
+

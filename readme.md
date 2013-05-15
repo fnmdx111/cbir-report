@@ -7,6 +7,7 @@ Requirements
 * hyperref
 * fontspec
 * minted
+* tikz
 
 
 Note

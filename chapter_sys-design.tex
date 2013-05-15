@@ -1,0 +1,88 @@
+
+\chapter{系统设计}
+\label{chap:sys-design}
+
+\section{系统说明}
+\label{sec:sys-description}
+\input{figure_sys-arch}
+
+\section{设计目标}
+\label{sec:design-goal}
+
+\section{系统架构}
+\label{sec:sys-arch}
+
+系统由客户端和服务端组成。
+
+\subsection{客户端}
+客户端由前端模块（\texttt{ui.py}）和核心模块（\texttt{libs}包）构成，
+而核心模块又由\texttt{ClientCore}类（\texttt{libs/core.py}）和
+\texttt{LogisticPermutation}类（\texttt{libs/logistic.py}）组成。其中
+\begin{itemize}
+\item \texttt{ClientCore}类负责图像的加解密与服务器的交互（例如上传图
+  片至数据库或请求检索图片等）；
+\item \texttt{LogisticPermutation}类负责根据给定的初始密钥求出加解密置
+  换表。
+\end{itemize}
+
+\subsection{服务端}
+
+\section{功能原理及实现}
+\label{sec:func-impl}
+
+为了达到标准化图片库，便于实现功能的目的，本系统只接受宽$640$像素，高
+$480$像素，即$4:3$的灰度JPEG图片。
+
+\subsection{检索匹配方面}
+\label{sec:retrieval-impl}
+本系统利用二维DCT抽取出一张图片的特征向量。具体方法如下：
+\begin{enumerate}
+\item 将输入JPEG图片按$8 \times 8$分块，对每块做DCT；
+\item 取每块的DC系数，添加到数组$V$中；
+\item 将$V$按降序排序，得到$W$，并取$W$的前$n$个元素作为该输入图片的特征向量。
+\end{enumerate}
+
+其中$n$可以根据实际需要来取。由于$W$中下标越大的元素，其值越小，在向量
+距离计算中起到的作用就越小，因此本系统实现中对检索效果和效率进行衡量，
+选择了$128$作为该参数的值。
+
+计算距离方面使用的是numpy库中的\texttt{linalg.norm}函数。
+
+\subsection{加解密方面}
+\label{sec:enc-dec-impl}
+
+本系统使用的加解密算法的初始密钥由三组$x_0$，$r$，$s$组成，
+其中$x_0 \in (-1, 1)$，$r \in [3.57, 4]$，$s > 0, s \in \mathbb{Z}$。
+
+加密算法首先使用伪随机序列生成算法生成若干置乱表，然后根据置乱表对图片
+进行块内和块间的置乱达到使图片不可理解、但保留DC系数的统计特性的目的。
+解密算法与加密算法类似，只是使用的置乱表不一样，即加解密算法是对合的。
+
+由Logistic映射生成具有$n$个元素的伪随机序列的具体做法\cite{lu2007}是：
+\begin{enumerate}
+  \item 使用初始密钥$x_0$和$r$，迭代Logistic公式，生成具有$n + s$个元
+      素的混沌序列，并舍去前$s$个元素，得到$L = \{x_1, x_2, x_3, \dotsc, x_n\}$；
+  \item 对$L$进行升序排序，得到$M = \{x_1^\prime, x_2^\prime, x_3^\prime,
+      \dotsc, x_n^\prime\}$;
+  \item 定位$x_i$在$x_i^\prime$中的位置序数，得到序数序列，记为$P =
+      \{p_1, p_2, p_3, \dotsc, p_n\}$
+\end{enumerate}
+$P$就是所求的关于初始密钥$x_0$、$r$和$s$的伪随机序列。
+
+由置乱表生成逆置乱表的具体做法是：
+\begin{enumerate}
+  \item 扩展输入序列为$P^\prime = \{(0, x_1), (1, x_2), (2, x_3),
+      \dotsc, (n - 1, x_n)\} & \quad x_i \in P$；
+  \item 建立一个新表$I$，使得$\forall (i, x_{i + 1}) \in P^\prime$，
+      $I_{x_{i + 1}} = i$
+\end{enumerate}
+$I$就是所求的关于$P$的逆置乱表。
+
+本系统为了保证每个DCT块的均值不变，利用不同的初始密钥生成了3个伪随机序列，分别是：
+\begin{itemize}
+  \item 利用第一组初始密钥生成了具有$w$个元素的$T_{column}$，作为块间的列置乱表；
+  \item 利用第二组初始密钥生成了具有$h$个元素的$T_{row}$，作为块间的行置乱表；
+  \item 利用第三组初始密钥生成了具有64个元素的$T_{block}$，作为DCT块内的置乱表；
+\end{itemize}
+其中$w$等于图片宽度除以$8$，$h$等于图片宽度除以$8$。
+

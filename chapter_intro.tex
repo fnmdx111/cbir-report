@@ -1,0 +1,96 @@
+
+\chapter{作品介绍}
+\label{chap:intro}
+
+\section{背景分析}
+\label{sec:bkg-analysis}
+
+\section{特色描述}
+\label{sec:spec-description}
+
+传统的内容检索系统不能支持对于密文的检索，而传统的加密存储系统不能支持内容检索。
+本作品从JPEG文件的压缩算法入手，
+实现了一个基于Logistics混沌系统的置乱加解密算法和基于离散余弦变换的内
+容检索系统，
+并基于这两个算法，实现了一个客户端/服务端构架的系统。
+其中客户端/服务端都由两部分（内核和前端）组成。
+
+\subsection{系统方案特色}
+\label{sec:sys-design-spec}
+\begin{itemize}
+\item 加密内容写回至JPEG文件，使加密内容可见，但不可理解。
+\item 加密算法使用的是像素置换和，加解密  速度较快。
+\item 由于Logistics映射的优良性质\cite{li2011}，加密算法的密钥空间至少高于128bit。
+\item 向量距离作为内容检索标准，速度较快。
+\end{itemize}
+
+\subsection{系统实现特色}
+\label{sec:sys-impl-spec}
+\begin{itemize}
+\item 整个系统构建于经过广大用户验证过的开源库或开源程序上，可以保证软
+  件基础设施的安全性。
+\item 系统构架为客户端/服务端，其中交互使用经过广泛使用的HTTP协议，使
+  一个服务器可以支持多个客户端同时访问，同时不增加服务端的程序复杂性。
+\item 服务端使用简洁的Flask框架和支持高并发的tornado库，高效可靠。
+\item 客户端使用了跨平台的Qt框架作为前端，内核算法使用了实现了多种快速
+  算法的OpenCV库和numpy库。
+\item 客户端服务端的内核与前端分开，耦合度低，用户可以方便的进行二次开
+  发。
+\end{itemize}
+
+\section{相关工作}
+\label{sec:related-work}
+
+为了实现系统设计目标，我们研究了离散余弦变换和Logistic映射的性质及其应用。
+
+\subsection{离散余弦变换}
+
+离散余弦变换（以下简称DCT）是一种将时空域上的函数转换到频域的、具有良好能
+量聚集性质的、存在快速算法的数学变换。其公式如下：
+\begin{displaymath}
+X_k = \frac1 2 \left[x_0 + \left(-1\right)^k x_{N - 1}\right] + \sum_{n = 1}^{N - 2} x_n \cos \left(
+\frac{\pi} {N - 1} n k \right) & \qquad k = 0, \dotsc, N - 1
+\end{displaymath}
+
+JPEG图片格式利用了人眼对低频信号敏感、对高频信号不敏感的特点对高频信号
+进行压缩。DCT使用最广泛的一种变形——二维DCT可以将良好的将高频与低频信
+号分离。在JPEG编码中，整个图像数据（灰度值）按$8 \times 8$分块，每块经
+过离散余弦变换、量化和熵编码之后按照JPEG标准编码到文件中。
+
+二维DCT（DCT-II）公式如下：
+\begin{displaymath}
+X_k = \sum_{n = 0}^{N - 1} x_n \cos \left[\frac{\pi} N \left(n +
+\frac1 2\right) k\right] & \qquad k = 0, \dotsc, N - 1
+\end{displaymath}
+
+在DCT-II中，输入矩阵$I$的能量被充分聚集到了左上角，其中输出矩阵$M$的
+$M_{0, 0}$是最能代表输入矩阵的值，这个值被称为DC系数（直流系数），即输入
+波形的均值。矩阵中其他的值被称为AC系数（交流系数）。
+离DC系数越远的AC系数所代表的频率就越
+高，人眼也就对它越不敏感。
+
+
+
+\subsection{Logistic映射}
+
+Logistic映射（或称单峰映射）是一种二次的多项式映射，是实际系统中存在的
+最简单的非线性差分方程之一\cite{yang2011}。这个映射因生物学家Robert
+May在1976年发表的一篇论文而著名。其公式如下：
+\begin{displaymath}
+  x_{n + 1} = rx_n(1 - x_n) & \qquad 0 < r \leq 4, r \in \mathbb{R}
+\end{displaymath}
+
+Logistic映射所构建的密钥序列具有良好的随机性和初值敏感性，当$r >
+3.569945672\dotsb$时，系统进入混沌状态，产生的序列非周期不收敛，随着初
+始值的不同有着非常大的差异性\cite{yang2011}。
+
+混沌现象是在非线性动力系统中出现的、具有对初始条件的
+敏感依赖性、类噪声、非周期性、确定性的、类随机的过程，这种过程既非周期
+又不收敛，其状态完全可以重现\cite{lu2007}。故本系统选用该映射来生成混
+沌序列，随后用该混沌序列来生成初始密钥敏感的伪随机序列，
+最后利用多个伪随机序列构成置乱矩阵来加密输入图片。
+
+\section{市场分析}
+\label{sec:market-analysis}
+
+
