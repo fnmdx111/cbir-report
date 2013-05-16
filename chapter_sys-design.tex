@@ -2,19 +2,46 @@
 \chapter{系统设计}
 \label{chap:sys-design}
 
-\section{系统说明}
-\label{sec:sys-description}
-\input{figure_sys-arch}
-
 \section{设计目标}
 \label{sec:design-goal}
 
+提出一个实用的生物特征图像安全检索系统用到的检索与加解密算法，并由可靠
+的部件与模块实现它，在实现典型的基于内容的图像检索系统的基础上，确保系
+统内图像的内容安全性，其检索性能不受加密处理影响。
+
+系统的安全性即，一般权限人可以对图像检索系统进行数据上的管理，如取出系
+统中的密图、或密图的特征向量并利用密图的特征向量进行图像匹配等，但一般
+权限人无法理解图像内容，只有图像所有人利用加密密钥计算出解密序列对图像
+解密后才能获得可以理解的图像。
+
+\section{系统说明}
+\label{sec:sys-description}
+
+\input{figure_sys-arch}
+如图\ref{fig:sys-arch}所示，系统由客户端和服务端构成。
+
+其中客户端所实现的功能有：
+\begin{itemize}
+\item 加密（置乱图像）
+\item 解密（逆置乱图像）
+\end{itemize}
+
+服务端所实现的功能有：
+\begin{itemize}
+\item 提取输入图像的特征
+\item 将密图加入图片数据库
+\item 将特征加入特征数据库
+\item 比对特征数据库中的特征
+\end{itemize}
+
+客户端与服务端通过HTTP协议进行交互，必要时可以使用HTTPS协议来增加安全
+性而无需修改大量代码。
+
 \section{系统架构}
 \label{sec:sys-arch}
-
-系统由客户端和服务端组成。
-
 \subsection{客户端}
+
+\input{figure_client-arch}
 客户端由前端模块（\texttt{ui.py}）和核心模块（\texttt{libs}包）构成，
 而核心模块又由\texttt{ClientCore}类（\texttt{libs/core.py}）和
 \texttt{LogisticPermutation}类（\texttt{libs/logistic.py}）组成。其中
@@ -30,7 +57,7 @@
 \section{功能原理及实现}
 \label{sec:func-impl}
 
-为了达到标准化图片库，便于实现功能的目的，本系统只接受宽$640$像素，高
+为了标准化图片库，便于实现功能，本系统只接受宽$640$像素，高
 $480$像素，即$4:3$的灰度JPEG图片。
 
 \subsection{检索匹配方面}

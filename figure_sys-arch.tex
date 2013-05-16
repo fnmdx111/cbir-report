@@ -4,7 +4,10 @@
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
 
-\begin{figure}[h!]
+\begin{figure}[H]
+
+\caption{系统架构图示}
+\label{fig:sys-arch}
 \centering
 \begin{tikzpicture}[
 font=\sffamily,
@@ -17,14 +20,17 @@ font=\sffamily,
 
     % Position the nodes using a matrix layout
     \matrix{
+        \& \& \node[source] (inputimg) {录入图像}; \& \\
+        \& \& \node[process] (correction) {矫正}; \& \\
         \node[source] (restoredimg) {还原图};
         \& \node (hiddennodeclient) {};
-        \& \node[source] (inputimg) {图像录入};
+        \& \node[source] (ainputimg) {待添加图像};
         \& \node[source] (rinputimg) {待检索图像}; \\
-            \node[process] (decimg) {解密 (逆置乱)};
-        \& \& \node[process] (correction) {矫正}; \& \\
-            \& \& \node[process] (encimg) {加密 (置乱)};
-        \& \node (crightbottom) {}; \\
+          \node[process] (decimg) {解密 (逆置乱)};
+        \& \& \node[process] (encimg) {加密 (置乱)};
+        \& \node[process] (encimga) {加密 (置乱)}; \\
+    \node (hiddenhttpa) {}; \& \node (hiddenhttpb) {};
+      \& \node (hiddenhttpc) {}; \& \node (hiddenhttpd) {}; \\
     \node (hiddennodeserver) {};
        \& \& \node[process] (extfeat) {提取特征}; 
        \& \node[process] (extfeata) {提取特征}; \\
@@ -34,20 +40,24 @@ font=\sffamily,
         \& \node (rightbottom) {}; \\
   };
 
-  \path (hiddennodeclient.south) + (0, -1.0) node (client)
+  \path (hiddennodeclient.south) + (0, -0.5) node (client)
       {\Large \emph{客户端}};
-  \path (hiddennodeserver.east) + (1.7, -0.2) node (server) {\Large
+  \path (hiddennodeserver.east) + (1.8, -0.2) node (server) {\Large
      \emph{服务端}};
+  \path (hiddenhttpa.east) + (1.8, 0) node (http-level)
+      {\Large \emph{HTTP}};
 
   % Draw the arrows between the nodes and label them.
   \draw[to] (decimg) -- (restoredimg);
   \draw[to] (results) -- (decimg);
   \draw[to] (inputimg) -- (correction);
-  \draw[to] (correction) -- (encimg);
+  \draw[to] (correction) -- (ainputimg);
+  \draw[to] (ainputimg) -- (encimg);
   \draw[to] (encimg) -| node[midway, above] {加入} (imgdb);
   \draw[to] (encimg) -- (extfeat);
   \draw[to] (extfeat) -- node[midway, left] {加入} (featdb);
-  \draw[to] (rinputimg) -- (extfeata);
+  \draw[to] (rinputimg) -- (encimga);
+  \draw[to] (encimga) -- (extfeata);
   \draw[to] (extfeata) |- node[midway, below] {比对} (featdb);
   \draw[to] (featdb) -- (imgdb);
   \draw[to] (imgdb) -- (results);
@@ -57,16 +67,22 @@ font=\sffamily,
     (a) {};
     \path (encimg.south -| rinputimg.east) + (+0.3, -0.3) node (b)
     {};
-    \path[fill=yellow!20, rounded corners, draw=black!50, dashed] (a)
+    \path[fill=cyan!10, rounded corners, draw=black!50, dashed] (a)
     rectangle (b);
     \path (extfeat.north -| extfeata.east) + (+0.5, +0.3) node (a) {};
     \path (results.west |- imgdb.south) + (-0.7, -0.3) node (b) {};
-    \path[fill=yellow!20, rounded corners, draw=black!50, dashed] (a)
+    \path[fill=yellow!10, rounded corners, draw=black!50, dashed] (a)
+    rectangle (b);
+    \path (hiddenhttpa.west |- hiddenhttpd.north) + (-1.7, 0.3) node
+    (a) {};
+    \path (hiddenhttpc.south -| hiddenhttpd.east) + (+1.5, -0.3) node
+    (b) {};
+    \path[fill=gray!10, rounded corners, draw=black!50, dashed] (a)
     rectangle (b);
   \end{pgfonlayer}
 
 \end{tikzpicture}
 
-\caption{系统架构图示}
+
 \end{figure}
 

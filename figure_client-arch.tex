@@ -1,0 +1,65 @@
+
+\begin{figure}[H]
+
+\centering
+\begin{tikzpicture}[
+level distance=130pt,
+font=\sffamily,
+  basic/.style={draw,text width=2cm,drop shadow,font=\sffamily,rectangle},
+  root/.style={basic,rounded corners=2pt,thin,align=center,fill=green!30},
+  level 2/.style={basic,rounded
+    corners=6pt,thin,align=center,fill=green!50,sibling distance=5mm,
+    text width=6em},
+  level 3/.style={basic,thin,align=left,fill=pink!60,text width=10em},
+  level 4/.style={basic,thin,align=left,fill=cyan!20,text width=12em,
+    level distance=100pt},
+  level 1/.style={sibling distance=10mm,level distance=100pt, text width=5em},
+  edge from parent/.style={->,draw},
+  grow'=right,
+  >=latex]
+
+\Tree [.\node[root] {客户端};
+          [.\node[level 2] {前端};
+              [.\node[level 3] (ui-node) {\texttt{ui.py}}; ]
+                %  [.\node[level 4] {\texttt{SecureImageRetrieval}}; ] ]
+              [.\node[level 3] (ui-comp-node)
+              {\texttt{libs/ui\_comp.py}}; ] ]
+                  % [.\node[level 4] {\texttt{ResultListItemDelegate}}; ]
+                  % [.\node[level 4] {\texttt{ResultListModel}}; ] ] ]
+          [.\node[level 2] {核心};
+              [.\node[level 3] (core-node) {\texttt{libs/core.py}}; ]
+                  % [.\node[level 4] {\texttt{ClientCore}}; ] ]
+              [.\node[level 3] (logistic-node) {\texttt{libs/logistic.py}}; ] ] ]
+
+% \begin{scope}[every node/.style={level 3}]
+%   \node [below of = ui-node, xshift=15pt] (ui-n-1)
+%    % {\mint{python}|class SecureRetrievalUI(QDialog, object)|};
+%     {SecureRetrievalUI};
+%   \node [below of = ui-comp-node, xshift=15pt] (ui-c-n-1)
+%    % {\mint{python}|class ResultListItemDelegate(QStyledItemDelegate,
+%    %   object)|};
+%     {ResultListItemDelegate};
+%   \node [below of = ui-c-n-1] (ui-c-n-2)
+%    % {\mint{python}|class ResultListModel(QAbstractListModel,
+%    % object)|};
+%     {ResultListModel};
+%   \node [below of = ui-c-n-2] (ui-c-n-3)
+%   %    {\mint{python}|class ImageWidget(QWidget, object)|};
+%     {ImageWidget};
+%   \node [below of = ui-c-n-3] (ui-c-n-4)
+%   %    {\mint{python}|class LoggerHandler(Handler)|};
+%     {LoggerHandler};
+%   \node [below of = ui-c-n-4] (ui-c-n-5)
+%   %    {\mint{python}|class ColoredFormatter(Formatter)|};
+%     {ColoredFormatter};
+% \end{scope}
+
+% \foreach \value in {1,2}
+%   \draw[->] (lvl21.195) |- (lvl31\value.west);
+%  \foreach \value in {1,2}
+%   \draw[->] (lvl22.195) |- (lvl32\value.west);
+\end{tikzpicture}
+\caption{客户端架构图示}
+\label{fig:client-arch}
+\end{figure}
+
