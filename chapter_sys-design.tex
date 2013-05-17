@@ -134,5 +134,17 @@ $I$就是所求的关于$P$的逆置乱表。
 服务端架构如下图
 \input{figures/server-arch}
 
+源文件\texttt{server.py}在代码层面上定义了应用协议的具体行为。各URL含
+义参见\ref{tab:app-proto-def}。
 
+\texttt{core.py}内容见下表
+\input{tables/server-core-py}
+
+数据库引擎选用的是Python自带的SQLite3数据库引擎，无需配置，即装即用，
+可以与本系统良好结合。本系统建表一张，表名为\texttt{entries}，存储了本
+系统所需的每张JPEG图片的信息，具体内容如下表
+\input{tables/db-entries-def}
+
+\texttt{ServerCore}是服务端的主要功能模块，其主要方法见下表
+\input{tables/server-core}
 

@@ -1,0 +1,27 @@
+\begin{table}[H]
+  \centering
+  \begin{tabular}[H]{| l | p{3.5cm} | p{3cm} | p{3cm} |}
+    \hline
+    方法名 & 参数 & 返回 & 说明 \\
+    \hline
+    \texttt{\_extract\_feat\_vec}
+  & \texttt{img:} 灰度矩阵在按块DCT后的矩阵\newline
+    \texttt{n:} 所取的DC系数个数
+  & \texttt{np.ndarray}型的特征向量，DC系数按降序排列
+  & 用于抽取出给定图像的特征向量 \\
+    \hline
+    \texttt{prepare\_results}
+  & \texttt{data:} base64编码的密图\newline
+    \texttt{n:} 结果个数
+  & 实际匹配结果个数
+  & 用于获取给定图像的匹配结果 \\
+    \hline
+    \texttt{add\_jpeg\_file}
+  & \texttt{data:} base64编码的密图
+  & 函数执行状态 & 用于将新图片加入数据库 \\
+    \hline
+  \end{tabular}
+%  \caption{\texttt{ServerCore}主要方法}
+  \label{tab:server-core}
+\end{table}
+

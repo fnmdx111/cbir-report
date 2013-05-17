@@ -5,7 +5,6 @@ Requirements
 * ctex
 * amsmath, amsfonts
 * hyperref
-* courier
 * fontspec
 * minted
 * tikz
@@ -22,7 +21,8 @@ Useful AucTex Shortcut
 * `C-c C-f C-e` insert `emph`
 * `C-c C-f C-t` insert `texttt`
 * `C-c ;` comment or uncomment region
-* `C-c RET` insert macro (input etc)
+* `C-c RET` or `C-c C-m` insert macro (input etc)
+* `C-c ^` return to main tex file
 
 
 Note

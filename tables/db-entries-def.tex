@@ -1,0 +1,18 @@
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{| l | l | p {3cm} |}
+    \hline
+    列名 & 类型 & 说明 \\ \hline
+    \texttt{\_id} & \texttt{Integer} & 主键，自增 \\ \hline
+    \texttt{feature\_vector} & \texttt{LargeBinary} & 图片特征向量的二
+    进制数据，缓存这个是为了有效提高检索效率 \\ \hline
+    \texttt{uuid} & \texttt{String} & 随机生成的UUID，用作图片的实际文
+    件名 \\ \hline
+    \texttt{fingerprint} & \texttt{String} & Unique，图片的SHA-1指纹，
+    用作排重 \\ \hline
+  \end{tabular}
+%  \caption{表\texttt{entries}定义}
+  \label{tab:db-entries-def}
+\end{table}
+
