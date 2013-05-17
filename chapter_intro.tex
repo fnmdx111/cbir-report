@@ -7,7 +7,6 @@
 
 \section{特色描述}
 \label{sec:spec-description}
-
 传统的内容检索系统不能支持对于密文的检索，而传统的加密存储系统不能支持内容检索。
 本作品从JPEG文件的压缩算法入手，
 实现了一个基于Logistics混沌系统的置乱加解密算法和基于离散余弦变换的内
@@ -40,16 +39,14 @@
 
 \section{相关工作}
 \label{sec:related-work}
-
 为了实现系统设计目标，我们研究了离散余弦变换和Logistic映射的性质及其应用。
 
 \subsection{离散余弦变换}
-
 离散余弦变换（以下简称DCT）是一种将时空域上的函数转换到频域的、具有良好能
 量聚集性质的、存在快速算法的数学变换。其公式如下：
 \begin{displaymath}
 X_k = \frac1 2 \left[x_0 + \left(-1\right)^k x_{N - 1}\right] + \sum_{n = 1}^{N - 2} x_n \cos \left(
-        \frac{\pi} {N - 1} n k \right) & \qquad k = 0, \dotsc, N - 1
+        \frac{\pi} {N - 1} n k \right) \qquad k = 0, \dotsc, N - 1
 \end{displaymath}
 
 JPEG图片格式利用了人眼对低频信号敏感、对高频信号不敏感的特点对高频信号
@@ -60,7 +57,7 @@ JPEG图片格式利用了人眼对低频信号敏感、对高频信号不敏感�
 二维DCT（DCT-II）公式如下：
 \begin{displaymath}
 X_k = \sum_{n = 0}^{N - 1} x_n \cos \left[\frac{\pi} N \left(n +
-        \frac1 2\right) k\right] & \qquad k = 0, \dotsc, N - 1
+        \frac1 2\right) k\right] \qquad k = 0, \dotsc, N - 1
 \end{displaymath}
 
 在DCT-II中，输入矩阵$I$的能量被充分聚集到了左上角，其中输出矩阵$M$的
@@ -72,12 +69,11 @@ $M_{0, 0}$是最能代表输入矩阵的值，这个值被称为DC系数（直�
 
 
 \subsection{Logistic映射}
-
 Logistic映射（或称单峰映射）是一种二次的多项式映射，是实际系统中存在的
 最简单的非线性差分方程之一\cite{yang2011}。这个映射因生物学家Robert
 May在1976年发表的一篇论文而著名。其公式如下：
 \begin{displaymath}
-x_{n + 1} = rx_n(1 - x_n) & \qquad 0 < r \leq 4, r \in \mathbb{R}
+x_{n + 1} = rx_n(1 - x_n) \qquad 0 < r \leq 4, r \in \mathbb{R}
 \end{displaymath}
 
 Logistic映射所构建的密钥序列具有良好的随机性和初值敏感性，当$r >

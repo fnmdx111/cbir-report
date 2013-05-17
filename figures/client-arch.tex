@@ -1,0 +1,30 @@
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  level distance=130pt,
+  font=\sffamily,
+  basic/.style={draw,text width=2cm,drop shadow,font=\sffamily,rectangle},
+  root/.style={basic,rounded corners=2pt,thin,align=center,fill=green!30},
+  level 2/.style={basic,rounded
+    corners=6pt,thin,align=center,fill=green!50,sibling distance=5mm,
+    text width=6em},
+  level 3/.style={basic,thin,align=left,fill=cyan!20,text width=10em},
+  level 1/.style={sibling distance=10mm,level distance=100pt, text width=5em},
+  edge from parent/.style={->,draw},
+  grow'=right,
+  >=latex]
+
+\Tree [.\node[root] {客户端};
+          [.\node[level 2] {前端};
+              [.\node[level 3] (ui-node) {\texttt{ui.py}}; ]
+              [.\node[level 3] (ui-comp-node)
+              {\texttt{libs/ui\_comp.py}}; ] ]
+          [.\node[level 2] {核心};
+              [.\node[level 3] (core-node) {\texttt{libs/core.py}}; ]
+              [.\node[level 3] (logistic-node) {\texttt{libs/logistic.py}}; ] ] ]
+\end{tikzpicture}
+\caption{客户端架构图示}
+\label{fig:client-arch}
+\end{figure}
+

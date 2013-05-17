@@ -1,0 +1,57 @@
+% Data flow diagram
+% Author: David Fokkema
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+font=\sffamily,
+    every matrix/.style={ampersand replacement=\&,column sep=1cm,row sep=1cm},
+    source/.style={draw,thick,rounded corners,fill=red!20,inner sep=.3cm},
+    process/.style={draw,thick,rounded corners,inner sep=.3cm,fill=blue!20},
+    entity/.style={source,fill=green!20},
+    post/.style={source,fill=gray!20},
+    to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
+    every node/.style={align=center}]
+
+  % Position the nodes using a matrix layout
+  \matrix{
+        \node[source] (ret-img) {待检索图片};
+     \& \node[entity] (client) {客户端};
+     \& \node[source] (upload-img) {待上传图片};
+     \& \node[source] (restored-img) {还原图}; \\
+        \& \node[process] (enc-img) {加密图片};
+     \& \& \node[process] (dec-img) {解密图片}; \\
+        \& \node[process] (base64-enc) {base64编码};
+     \& \& \node[process] (base64-dec) {base64解码}; \\
+        \node[post] (add) {/add};
+     \& \node[post] (send) {/send};
+     \& \node[post] (retrieve) {/retrieve}; \\
+        \node[process] (add-to-db) {加入数据库};
+     \& \node[process] (prepare) {准备结果集};
+     \& \node[entity] (res-set) {结果集};
+     \& \node (hidden-row-5) {}; \\
+  };
+
+  % Draw the arrows between the nodes and label them.
+  \draw[to] (upload-img) -- (client);
+  \draw[to] (ret-img) -- (client);
+  \draw[to] (client) -- (enc-img);
+  \draw[to] (enc-img) -- (base64-enc);
+  \draw[to] (base64-enc) -- (send);
+  \draw[to] (base64-enc) -| (add);
+  \draw[to] (send) -- (prepare);
+  \draw[to] (add) -- (add-to-db);
+  \draw[to] (retrieve) -- (res-set);
+  \draw[to] (res-set) -| (base64-dec);
+  \draw[to] (base64-dec) -- (dec-img);
+  \draw[to] (dec-img) -- (restored-img);
+  \draw[to] (prepare) -- (res-set);
+\end{tikzpicture}
+
+\caption{系统流程图示}
+\label{fig:app-workflow}
+\end{figure}
+

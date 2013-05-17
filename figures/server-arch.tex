@@ -1,0 +1,27 @@
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+font=\sffamily,
+  basic/.style={draw,text width=2cm,drop shadow,font=\sffamily,rectangle},
+  root/.style={basic,rounded
+    corners=2pt,thin,align=center,fill=green!30},
+  level 2/.style={basic,rounded
+    corners=6pt,thin,align=center,fill=green!50, text width=6em},
+  level 3/.style={basic,thin,align=left,fill=cyan!20,align=center,
+    text width=10em},
+  level 1/.style={sibling distance=10mm,text width=5em},
+  edge from parent/.style={->,draw},
+  >=latex]
+
+\Tree [.\node[root] {服务端};
+          [.\node[level 2] {http服务器};
+              [.\node[level 3] {\texttt{server.py}}; ] ]
+          [.\node[level 2] {核心};
+              [.\node[level 3] {\texttt{core.py}}; ] ] ]
+
+\end{tikzpicture}
+\caption{服务端架构图示}
+\label{fig:server-arch}
+\end{figure}
+

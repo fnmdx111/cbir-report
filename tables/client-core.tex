@@ -1,0 +1,31 @@
+\begin{center}
+  \begin{tabular}{| l | p{3.5cm} | p{3cm} | p{4cm} |}
+    \hline
+    方法名 & 参数 & 返回 & 说明 \\
+    \hline
+    \texttt{open\_img} & \texttt{path:} 图像路径
+  & \texttt{np.ndarray}型的灰度矩阵表示打开的图像 & 用于打开给定路径的JPEG文件 \\
+    \hline
+    \texttt{save\_img} & \texttt{path:} 保存路径\newline
+    \texttt{img:} 灰度矩阵 & 无 & 用于按JPEG格式保存给定的灰度矩阵 \\
+    \hline
+    \texttt{\_transform} & \texttt{img:} 灰度矩阵\newline
+                           \texttt{table:} 块间置乱表\newline
+                           \texttt{block\_table:} 块内置乱表\newline
+  & \texttt{np.ndarray}型的按照给定的表置乱后的矩阵 & 主置乱函数，\newline
+    \texttt{enc\_img}与\texttt{dec\_img}\newline
+    都是在这个方法的基础上实现的 \\
+    \hline
+    \texttt{upload\_img} & \texttt{raw:} 待上传图像的二进制数据
+  & 服务器返回的json & 用于上传图像 \\
+    \hline
+    \texttt{send\_img} & \texttt{raw:} 待检索的二进制数据\newline
+                         \texttt{max\_count:} 最大结果数，默认为10
+  & 服务器返回的json & 用于检索图像 \\
+    \hline
+    \texttt{parse\_result} & 无 & 服务器返回图像的二进制数据与该图像与
+    原图的距离 & 用于获取服务器准备好的结果，每次调用获取一个 \\
+    \hline
+  \end{tabular}
+\end{center}
+

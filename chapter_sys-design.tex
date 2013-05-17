@@ -4,7 +4,6 @@
 
 \section{设计目标}
 \label{sec:design-goal}
-
 提出一个实用的生物特征图像安全检索系统用到的检索与加解密算法，并由可靠
 的部件与模块实现它，在实现典型的基于内容的图像检索系统的基础上，确保系
 统内图像的内容安全性，其检索性能不受加密处理影响。
@@ -14,11 +13,20 @@
 权限人无法理解图像内容，只有图像所有人利用加密密钥计算出解密序列对图像
 解密后才能获得可以理解的图像。
 
+具体地，本系统分为两部分，即客户端和服务端。
+
+在实现上述目标的同时，客户端应有用户友好的但尽量简洁的、稳定的、健壮的
+图形用户界面，以保证客户端程序的可用性。
+
+服务端应有高速可靠的服务器程序做底层以便即使对客户端程序的请求做及时的
+响应。
+
+同时客户端与服务端之间应该有可靠的交流协议，以更好的利用网络资源。
+
 \section{系统说明}
 \label{sec:sys-description}
-
-\input{figure_sys-arch}
-如图\ref{fig:sys-arch}所示，系统由客户端和服务端构成。
+\input{figures/sys-workflow}
+如图所示，系统由客户端和服务端构成。
 
 其中客户端所实现的功能有：
 \begin{itemize}
@@ -35,26 +43,14 @@
 \end{itemize}
 
 客户端与服务端通过HTTP协议进行交互，必要时可以使用HTTPS协议来增加安全
-性而无需修改大量代码。
+性而无需修改大量代码。其中，客户端与服务端之间也有构建于HTTP之上的应用
+协议。流程如下：
+\input{figures/app-workflow}
 
-\section{系统架构}
-\label{sec:sys-arch}
-\subsection{客户端}
+具体地，本系统的协议详细如下表。
+\input{tables/app-protocol}
 
-\input{figure_client-arch}
-客户端由前端模块（\texttt{ui.py}）和核心模块（\texttt{libs}包）构成，
-而核心模块又由\texttt{ClientCore}类（\texttt{libs/core.py}）和
-\texttt{LogisticPermutation}类（\texttt{libs/logistic.py}）组成。其中
-\begin{itemize}
-\item \texttt{ClientCore}类负责图像的加解密与服务器的交互（例如上传图
-  片至数据库或请求检索图片等）；
-\item \texttt{LogisticPermutation}类负责根据给定的初始密钥求出加解密置
-  换表。
-\end{itemize}
-
-\subsection{服务端}
-
-\section{功能原理及实现}
+\section{功能原理}
 \label{sec:func-impl}
 
 为了标准化图片库，便于实现功能，本系统只接受宽$640$像素，高
@@ -78,7 +74,6 @@ $480$像素，即$4:3$的灰度JPEG图片。
 
 \subsection{加解密方面}
 \label{sec:enc-dec-impl}
-
 本系统使用的加解密算法的初始密钥由三组$x_0$，$r$，$s$组成，
 其中$x_0 \in (-1, 1)$，$r \in [3.57, 4]$，$s > 0, s \in \mathbb{Z}$。
 
@@ -91,7 +86,7 @@ $480$像素，即$4:3$的灰度JPEG图片。
   \item 使用初始密钥$x_0$和$r$，迭代Logistic公式，生成具有$n + s$个元
       素的混沌序列，并舍去前$s$个元素，得到$L = \{x_1, x_2, x_3, \dotsc, x_n\}$；
   \item 对$L$进行升序排序，得到$M = \{x_1^\prime, x_2^\prime, x_3^\prime,
-      \dotsc, x_n^\prime\}$;
+      \dotsc, x_n^\prime\}$；
   \item 定位$x_i$在$x_i^\prime$中的位置序数，得到序数序列，记为$P =
       \{p_1, p_2, p_3, \dotsc, p_n\}$
 \end{enumerate}
@@ -100,7 +95,7 @@ $P$就是所求的关于初始密钥$x_0$、$r$和$s$的伪随机序列。
 由置乱表生成逆置乱表的具体做法是：
 \begin{enumerate}
   \item 扩展输入序列为$P^\prime = \{(0, x_1), (1, x_2), (2, x_3),
-      \dotsc, (n - 1, x_n)\} & \quad x_i \in P$；
+      \dotsc, (n - 1, x_n)\} \quad x_i \in P$；
   \item 建立一个新表$I$，使得$\forall (i, x_{i + 1}) \in P^\prime$，
       $I_{x_{i + 1}} = i$
 \end{enumerate}
@@ -113,4 +108,31 @@ $I$就是所求的关于$P$的逆置乱表。
   \item 利用第三组初始密钥生成了具有64个元素的$T_{block}$，作为DCT块内的置乱表；
 \end{itemize}
 其中$w$等于图片宽度除以$8$，$h$等于图片宽度除以$8$。
+
+\section{系统架构与实现}
+\label{sec:sys-arch}
+\subsection{客户端}
+客户端架构如下图
+\input{figures/client-arch}
+
+\texttt{ui.py}内有类\texttt{SecureRetrievalUI}，是客户端的主界面类。
+
+\texttt{libs/ui\_comp.py}内含有多个类，是客户端前端的辅助模块，用于图像的
+显示等，如下表
+\input{tables/client-ui-comp}
+
+\texttt{libs/core.py}内有类\texttt{ClientCore}，是客户端的功能核心。该
+类主要方法有
+\input{tables/client-core}
+
+\texttt{LogisticPermutation}类用于根据给定的初始密钥生成加解密置换表。
+\texttt{ClientCore}依赖于\texttt{LogisticPermutation}类
+（\texttt{libs/logistic.py}）为其生成加解密置换表以便加解密使用。
+根据初始密组生成加解密置换表的方法见\ref{sec:enc-dec-impl}。
+
+\subsection{服务端}
+服务端架构如下图
+\input{figures/server-arch}
+
+
 
