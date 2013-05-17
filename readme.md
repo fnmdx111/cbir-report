@@ -6,7 +6,6 @@ Requirements
 * amsmath, amsfonts
 * hyperref
 * fontspec
-* minted
 * tikz
 * float
 * tikz-qtree
@@ -27,6 +26,8 @@ Useful AucTex Shortcut
 
 Note
 ====
+
+Dependency `minted` has been removed.
 
 Add `-shell-escape` so that `minted` can work normally.
 
