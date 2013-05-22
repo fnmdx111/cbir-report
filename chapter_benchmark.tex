@@ -2,18 +2,89 @@
 \chapter{性能测试}
 \label{chap:benchmark}
 
+为了测试本系统的可用性，需要测试检索算法的鲁棒性和效率。
+
 \section{测试指标}
 \label{sec:benchmark-index}
+鲁棒性：本系统利用DCT抽取出图像的特征向量，采用向量间的距离作为图片的
+相似程度的度量，距离越大，图片相似程度越低，同理，距离越小（大于0），
+图片的相似程度就越高。对鲁棒性的测试应着眼于在不同情况下，加噪图与
+原图的距离的变化情况，距离越小，抗噪声性能越好。
+
+效率：本系统接受一个待检索图后，在特征数据库中检索所有的特征向量后返回
+前10相似的图片。对效率的测试应着眼于系统检索出结果的时间，以及客户端接
+收到全部结果图片的时间，检索时间越小，服务端检索性能越好，接受时间越
+小，客户端性能越好。
 
 \section{测试方案}
 \label{sec:benchmark-scheme}
 
+\begin{itemize}
+\item 为了测试检索算法的鲁棒性，拟选择一些样本图片，并对这些样本做一些典型的
+变化：
+\begin{itemize}
+\item 加入椒盐噪声
+\item 改变质量因子$Q$
+\end{itemize}
+然后统计加噪图与原图的距离。
+
+\item 为了测试检索算法的效率，拟在同一台主机上同时开启本系统的服务端和客户端，
+即在忽略网络状况的情况下测试系统的检索速度并统计时间。
+\end{itemize}
+
 \section{测试环境}
 \label{sec:benchmark-env}
+
+\begin{itemize}
+\item 硬件环境：
+\begin{itemize}
+\item 处理器：Intel Core i5-2410M CPU @ 2.30GHz
+\item 内存：4.00GB（3.82GB可用）
+\end{itemize}
+\item 软件环境：
+\begin{itemize}
+\item 操作系统：Windows 8 专业版 x64（含Media Center） 
+\item Python 2.7.3 x86
+\item numpy 1.7.1
+\item opencv-python-2.4.5
+\end{itemize}
+\end{itemize}
 
 \section{测试数据}
 \label{sec:benchmark-data}
 
+测试图像集为37张灰度人脸图，大小为$640 \times 480$，单位为像素。
+样图如下：
+
+
 \section{测试结果及分析}
 \label{sec:result-and-analysis}
+
+\subsection{椒盐噪声}
+\label{sec:speckle-data}
+
+典型的加入椒盐噪声的图如下
+
+对上示原图加入噪声密度在$[0, 0.1]$内、步长为0.01的椒盐噪声后，分别统计
+与原图的距离，可作如下的散点图：
+
+不失一般性，选取37张图片做同样处理，统计出散点图，如图：
+
+从图中可以看出来，本算法可以抵抗噪声密度小于$0.1$的椒盐噪声，在此噪声
+密度下，加噪图与原图距离普遍小于$500$，当噪声密度大于$0.1$后，加噪图
+与原图距离增大到了无法接受的地步。
+
+\subsection{质量因子}
+\label{sec:quality-data}
+
+原图与质量因子$Q = 50$的图如下
+
+调整上示原图的质量因子$Q \in [0, 0.9]$、步长为0.1后，分别统计与原图的
+距离，可作如下的散点图：
+
+不失一般性，选取37张图片做同样处理，统计出散点图，如图：
+
+从图中可以看出来，本算法有较好的抗压缩性能，即使图片质量被调整为$10\%$，
+与原图的距离仍然小于$500$。
+
 
