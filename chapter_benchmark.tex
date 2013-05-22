@@ -1,4 +1,11 @@
 
+\newcommand{\insimg}[1] {
+  \begin{subfigure}[b]{0.2\textwidth}
+    \centering
+    \includegraphics[keepaspectratio=true, width=\textwidth]{images/#1}
+  \end{subfigure}
+}
+
 \chapter{性能测试}
 \label{chap:benchmark}
 
@@ -54,7 +61,69 @@
 \label{sec:benchmark-data}
 
 测试图像集为37张灰度人脸图，大小为$640 \times 480$，单位为像素。
-样图如下：
+图集如下图
+
+\begin{figure}[H]
+  \centering
+  \insimg{gs0.jpg}
+  \insimg{gs1.jpg}
+  \insimg{gs2.jpg}
+  \insimg{gs3.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs4.jpg}
+  \insimg{gs5.jpg}
+  \insimg{gs6.jpg}
+  \insimg{gs7.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs8.jpg}
+  \insimg{gs9.jpg}
+  \insimg{gs10.jpg}
+  \insimg{gs11.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs12.jpg}
+  \insimg{gs13.jpg}
+  \insimg{gs14.jpg}
+  \insimg{gs15.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs16.jpg}
+  \insimg{gs17.jpg}
+  \insimg{gs18.jpg}
+  \insimg{gs19.jpg}
+  \vspace{0.1cm}
+\end{figure}
+\begin{figure}[H]
+  \centering
+
+  \insimg{gs20.jpg}
+  \insimg{gs21.jpg}
+  \insimg{gs22.jpg}
+  \insimg{gs23.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs24.jpg}
+  \insimg{gs25.jpg}
+  \insimg{gs26.jpg}
+  \insimg{gs27.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs28.jpg}
+  \insimg{gs29.jpg}
+  \insimg{gs30.jpg}
+  \insimg{gs31.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs32.jpg}
+  \insimg{gs33.jpg}
+  \insimg{gs34.jpg}
+  \insimg{gs35.jpg}
+  \vspace{0.1cm}
+
+  \insimg{gs36.jpg}
+\end{figure}
 
 
 \section{测试结果及分析}
@@ -64,11 +133,40 @@
 \label{sec:speckle-data}
 
 典型的加入椒盐噪声的图如下
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[keepaspectratio=true,
+    width=\textwidth]{images/gs0.jpg}
+    \caption{原图}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[keepaspectratio=true,
+    width=\textwidth]{images/gs0_0.02_speckle.jpg}
+    \caption{加噪图}
+  \end{subfigure}
+  \caption{噪声参数为0.02时的椒盐噪声对gs0.jpg的影响}
+\label{fig:speckle-ex-img}
+\end{figure}
 
 对上示原图加入噪声密度在$[0, 0.1]$内、步长为0.01的椒盐噪声后，分别统计
-与原图的距离，可作如下的散点图：
+与原图的距离，可作如下的散点图
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/speckle_gs0.png}
+  \caption{对gs0.jpg的椒盐噪声统计}
+  \label{fig:speckle-gs0-scatter-plot}
+\end{figure}
 
-不失一般性，选取37张图片做同样处理，统计出散点图，如图：
+为不失一般性，选取37张图片做同样处理，统计出散点图，如图
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/speckle_all.png}
+  \caption{对所有图片的椒盐噪声统计}
+  \label{fig:speckle-all-scatter-plot}
+\end{figure}
 
 从图中可以看出来，本算法可以抵抗噪声密度小于$0.1$的椒盐噪声，在此噪声
 密度下，加噪图与原图距离普遍小于$500$，当噪声密度大于$0.1$后，加噪图
@@ -77,12 +175,57 @@
 \subsection{质量因子}
 \label{sec:quality-data}
 
-原图与质量因子$Q = 50$的图如下
+原图与质量因子$Q = 10$时的图如下
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[keepaspectratio=true,
+    width=\textwidth]{images/gs0.jpg}
+    \caption{原图}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[keepaspectratio=true,
+    width=\textwidth]{images/gs0_0.10_quality.jpg}
+    \caption{压缩图}
+  \end{subfigure}
+  \caption{质量因子为10时的压缩操作对gs0.jpg的影响}
+\label{fig:quality-ex-img}
+\end{figure}
 
-调整上示原图的质量因子$Q \in [0, 0.9]$、步长为0.1后，分别统计与原图的
-距离，可作如下的散点图：
+调整上示原图的质量因子$Q \in [0, 1]$、步长为$0.1$（在$[0.9, 1]$之间步长
+为$0.01$）后，分别统计与原图的距离，可作如下的散点图
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/quality_gs0.png}
+  \caption{对gs0.jpg的压缩操作统计}
+  \label{fig:quality-gs0-scatter-plot}
+\end{figure}
 
-不失一般性，选取37张图片做同样处理，统计出散点图，如图：
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/quality_gs0_0.9_1.png}
+  \caption{对gs0.jpg的压缩操作统计（$[0.9, 1]$区间）}
+  \label{fig:quality-gs0-sub-scatter-plot}
+\end{figure}
+
+为不失一般性，选取37张图片做同样处理，统计出散点图，如图
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/quality_all.png}
+  \caption{对所有图片的压缩操作统计}
+  \label{fig:quality-all-scatter-plot}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true,
+  scale=0.6]{images/quality_all_0.9_1.png}
+  \caption{对所有图片的压缩操作统计（$[0.9, 1]$区间）}
+  \label{fig:quality-gs0-sub-scatter-plot}
+\end{figure}
 
 从图中可以看出来，本算法有较好的抗压缩性能，即使图片质量被调整为$10\%$，
 与原图的距离仍然小于$500$。
