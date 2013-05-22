@@ -10,6 +10,8 @@ Requirements
 * float
 * tikz-qtree
 * geometry
+* graphicx
+* subcaption
 
 
 Useful AucTex Shortcut
@@ -27,6 +29,10 @@ Useful AucTex Shortcut
 
 Note
 ====
+
+When building pdf document, don't forget to run the scripts
+under `scripts`, in case plot data be modified. The command
+should be `/path/to/ipython --pylab=auto script.py`.
 
 Dependency `minted` has been removed.
 
