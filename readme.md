@@ -9,6 +9,7 @@ Requirements
 * tikz
 * float
 * tikz-qtree
+* geometry
 
 
 Useful AucTex Shortcut
