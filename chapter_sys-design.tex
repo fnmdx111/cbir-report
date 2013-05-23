@@ -158,3 +158,86 @@ $I$就是所求的关于$P$的逆置乱表。
 \label{fig:ui-connected}
 \end{figure}
 
+注意：如果未能与服务器连接成功，则\texttt{Retrieve}与\texttt{Upload}按
+钮不可用，\texttt{Reconnect}可用，如下图，此时应
+点击\texttt{Settings}按钮打开设置面板以检查服务器地址是否正确，确认完毕
+后，点击\texttt{Ok}按钮确认，随后点击\texttt{Reconnect}以试图重新连接服
+务器。若连接成功，则\texttt{Reconnect}变为不可用状
+态，\texttt{Retrieve}与\texttt{Upload}变为可用状态。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-disconnected.png}
+  \caption{未连接服务器的客户端}
+  \label{fig:ui-disconnected}
+\end{figure}
+
+配置界面\texttt{Settings}如下图
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-settings-dialog.png}
+  \caption{配置界面}
+  \label{fig:ui-settings-dialog}
+\end{figure}
+
+服务器地址（形式为一个URL），与三组密钥均在此设置。密钥设置要求
+见\ref{sec:enc-dec-impl}。如果服务器地址被改变，并且客户端已经连接到服
+务器，客户端会与原服务器断开连接并试图连接新服务器。配置界面
+的\texttt{Show Log}按钮可以打开一个日志窗口，记录了客户端的运行情况。
+日志窗口\texttt{Log}如下图
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-log-dialog.png}
+  \caption{日志窗口}
+  \label{fig:ui-log-dialog}
+\end{figure}
+
+当用户通过\texttt{Select File}按钮选择一张图片后，该图片与密图会同时显
+示出来，如下图
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-image-selected.png}
+  \caption{选择一张图片后}
+  \label{fig:ui-image-selected}
+\end{figure}
+
+此时用户可以点击\texttt{Upload}来将该文件（密图）上传至服务器，或点击
+\texttt{Retrieve}来检索该图片。注意，如果该图片已存在于服务端，服务器
+将不会接受该图片。
+
+点击\texttt{Retrieve}按钮后，客户端会发送一个检索请求到服务器，并开始
+获取结果。此时客户端会显示状态为\texttt{fetching...}，如下图
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-retrieve-fetching.png}
+  \caption{客户端获取结果中}
+  \label{fig:ui-retrieve-fetching}
+\end{figure}
+
+当客户端每次获取一个结果，它会将结果解密并保存在工作目录下
+的\texttt{results}目录下，文件名为\texttt{res$i$.jpg}。其中$i$不一定是结
+果在结果集中的大小序号。当全部结果获取完毕后，客户端会将结果集按升序排序，
+并且状态显示为\texttt{done}，如下图
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-retrieve-done.png}
+  \caption{客户端获取所有结果后}
+  \label{fig:ui-retrieve-done}
+\end{figure}
+
+在检索过程中，日志窗口会记录一些有用的信息，如检索耗时与检索结束耗时
+（从发送检索请求到所有结果获取结束所耗费的时间）等，如下图
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[keepaspectratio=true]{images/ui-retrieve-log.png}
+  \caption{检索过程的日志记录}
+  \label{fig:ui-retrieve-log}
+\end{figure}
+
