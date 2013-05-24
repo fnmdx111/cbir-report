@@ -230,4 +230,19 @@
 从图中可以看出来，本算法有较好的抗压缩性能，即使图片质量被调整为$10\%$，
 与原图的距离仍然小于$500$。
 
+\subsection{系统检索效率}
+\label{sec:sys-retrieval-effi}
 
+使用gs0.jpg做10次检索，分别记录：
+\begin{itemize}
+\item 检索耗时$t_r$：服务器比对所有特征向量，获得结果集所花时间；
+\item 检索结束耗时$t_a$：客户端从点击\texttt{Retrieve}按钮开始到所有结
+  果图像获取结束所花时间。
+\end{itemize}
+
+测试结果如下表
+
+\input{tables/sys-retrieval-effi}
+
+该表显示出本系统的检索耗时$t_r$较小，即服务端检索性能较好，但检索结束
+耗时$t_a$高出$t_r$很多，原因可能是base64加解码与图像加解密比较耗时。
