@@ -1,10 +1,17 @@
 
-\begin{table}[H]
+\begin{center}
   \setlength{\tabcolsep}{25pt}
-  \centering
-  \begin{tabular}{ l c c }
+  \begin{longtable}{ l c c }
     \hline
-    序号 & $t_r$ & $t_a$ \\ \hline \hline
+    \textbf{序号} & \textbf{$t_r$} & \textbf{$t_a$} \\ \hline \hline
+    \endfirsthead
+    \multicolumn{3}{r}{\textit{接上页}} \\
+    \hline
+    \textbf{序号} & \textbf{$t_r$} & \textbf{$t_a$} \\ \hline \hline
+    \endhead
+    \hline
+    \endfoot
+    \endlastfoot
     1 & $0.08562$ & $3.44197$ \\
     2 & $0.08107$ & $3.50858$ \\
     3 & $0.08263$ & $3.42089$ \\
@@ -17,8 +24,9 @@
     10 & $0.08165$ & $3.46871$ \\
     均值 & $0.08539$ & $3.46947$ \\
     \hline
-  \end{tabular}
-  \caption{系统效率测试结果}
+  \caption{系统效率测试结果} \\
+  \end{longtable}
+
   \label{tab:sys-retrieval-effi}
-\end{table}
+\end{center}
 

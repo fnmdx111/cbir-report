@@ -1,10 +1,18 @@
 
-\begin{table}[H]
-  \centering
-    \begin{tabular}{| l | p{2cm} | p{2cm} | p{5cm} |}
+\begin{center}
+    \begin{longtable}{| l | p{2.5cm} | p{2.5cm} | p{5cm} |}
     \hline
-    URL & 参数 & 返回 & 说明 \\
+    \textbf{URL} & \textbf{参数} & \textbf{返回} & \textbf{说明} \\
     \hline
+    \endfirsthead
+    \multicolumn{4}{r}{\textit{接上页}} \\
+    \hline
+    \textbf{URL} & \textbf{参数} & \textbf{返回} & \textbf{说明} \\
+    \hline
+    \endhead
+    \hline
+    \endfoot
+    \endlastfoot
     \texttt{/login}
   & 由客户端生成的id
   & status
@@ -33,9 +41,9 @@
   & 在客户端发送\texttt{/send}请求并收到回复后，即可发送该请求来获取结果
     图像 \\
     \hline
-  \end{tabular}
-  \caption{应用协议定义}
+  \caption{应用协议定义} \\
+  \end{longtable}
   \label{tab:app-proto-def}
-\end{table}
+\end{center}
 
 

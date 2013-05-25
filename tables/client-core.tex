@@ -1,9 +1,17 @@
-\begin{table}[H]
-  \centering
-  \begin{tabular}[H]{| l | p{3.5cm} | p{3cm} | p{4cm} |}
+\begin{center}
+  \begin{longtable}[H]{| l | p{3.5cm} | p{3cm} | p{4cm} |}
     \hline
-    方法名 & 参数 & 返回 & 说明 \\
+    \textbf{方法名} & \textbf{参数} & \textbf{返回} & \textbf{说明} \\
     \hline
+    \endfirsthead
+    \multicolumn{4}{r}{\textit{接上页}} \\
+    \hline
+    \textbf{方法名} & \textbf{参数} & \textbf{返回} & \textbf{说明} \\
+    \hline
+    \endhead
+    \hline
+    \endfoot
+    \endlastfoot
     \texttt{open\_img} & \texttt{path:} 图像路径
   & \texttt{np.ndarray}型的灰度矩阵表示打开的图像 & 用于打开给定路径的JPEG文件 \\
     \hline
@@ -27,8 +35,8 @@
     \texttt{parse\_result} & 无 & 服务器返回图像的二进制数据与该图像与
     原图的距离 & 用于获取服务器准备好的结果，每次调用获取一个 \\
     \hline
-  \end{tabular}
-%  \caption{\texttt{ClientCore}主要方法}
+    \caption{\texttt{ClientCore}主要方法} \\
+  \end{longtable}
   \label{tab:client-core}
-\end{table}
+\end{center}
 

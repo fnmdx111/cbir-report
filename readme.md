@@ -12,6 +12,7 @@ Requirements
 * geometry
 * graphicx
 * subcaption
+* longtable
 
 
 Useful AucTex Shortcut
@@ -23,7 +24,7 @@ Useful AucTex Shortcut
 * `C-c C-f C-e` insert `emph`
 * `C-c C-f C-t` insert `texttt`
 * `C-c ;` comment or uncomment region
-* `C-c RET` or `C-c C-m` insert macro (input etc)
+* `C-c RET` or `C-c C-m` insert macro (`input` etc)
 * `C-c ^` return to main tex file
 
 

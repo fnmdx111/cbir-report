@@ -23,6 +23,9 @@
 收到全部结果图片的时间，检索时间越小，服务端检索性能越好，接受时间越
 小，客户端性能越好。
 
+检索正确率：检索结果与原图在内容上的相关性，相关性越高，正确率越高。检
+索结果图与原图是否相关由人工判断。
+
 \section{测试方案}
 \label{sec:benchmark-scheme}
 
@@ -37,31 +40,34 @@
 
 \item 为了测试检索算法的效率，拟在同一台主机上同时开启本系统的服务端和客户端，
 即在忽略网络状况的情况下测试系统的检索速度并统计时间。
+
+\item 为了测试检索算法的检索正确率，拟选择所有样本图片的标准图，并用这
+  些标准图做检索，随后统计出结果集与原标准图的相关性。
 \end{itemize}
 
 \section{测试环境}
 \label{sec:benchmark-env}
 
 \begin{itemize}
-\item 硬件环境：
-\begin{itemize}
-\item 处理器：Intel Core i5-2410M CPU @ 2.30GHz
-\item 内存：4.00GB（3.82GB可用）
-\end{itemize}
-\item 软件环境：
-\begin{itemize}
-\item 操作系统：Windows 8 专业版 x64（含Media Center） 
-\item Python 2.7.3 x86
-\item numpy 1.7.1
-\item opencv-python-2.4.5
-\end{itemize}
+  \item \textbf{硬件环境}
+  \begin{itemize}
+    \item Intel Core i5-2410M CPU @ 2.30GHz
+    \item 4.00GB RAM（3.82GB可用）
+  \end{itemize}
+  \item \textbf{软件环境}
+  \begin{itemize}
+    \item Windows 8 专业版 x64（含Media Center） 
+    \item Python 2.7.3 x86
+    \item numpy 1.7.1
+    \item opencv-python-2.4.5
+  \end{itemize}
 \end{itemize}
 
 \section{测试数据}
 \label{sec:benchmark-data}
 
-测试图像集为37张灰度人脸图，大小为$640 \times 480$，单位为像素。
-图集如下图
+测试图像集为40张灰度正脸无表情人脸图（即标准图）与他们的其他表情或姿势
+人脸图\cite{dataset}，大小为$640 \times 480$，单位为像素。标准图集如下图
 
 \begin{figure}[H]
   \centering
@@ -88,15 +94,15 @@
   \insimg{gs14.jpg}
   \insimg{gs15.jpg}
   \vspace{0.1cm}
+\end{figure}
+\begin{figure}[H]
+  \centering
 
   \insimg{gs16.jpg}
   \insimg{gs17.jpg}
   \insimg{gs18.jpg}
   \insimg{gs19.jpg}
   \vspace{0.1cm}
-\end{figure}
-\begin{figure}[H]
-  \centering
 
   \insimg{gs20.jpg}
   \insimg{gs21.jpg}
@@ -123,8 +129,51 @@
   \vspace{0.1cm}
 
   \insimg{gs36.jpg}
+  \insimg{gs37.jpg}
+  \insimg{gs38.jpg}
+  \insimg{gs39.jpg}
+  \vspace{0.1cm}
 \end{figure}
 
+以1号人物为例，以下列举类型编号：
+\begin{itemize}
+\item \textbf{类型1}：正脸全图，无表情，漫射光，即标准图
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs0.jpg}
+  \end{figure}
+\item \textbf{类型2}：正脸全图，“高兴”的表情，漫射光
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs1.jpg}
+  \end{figure}
+\item \textbf{类型3}：30度人物右转，无表情，漫射光
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs2.jpg}
+  \end{figure}
+\item \textbf{类型4}：30度人物左转，无表情，漫射光
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs3.jpg}
+  \end{figure}
+\item \textbf{类型5}：正脸全图，无表情，人物左侧增加投光灯
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs4.jpg}
+  \end{figure}
+\item \textbf{类型6}：正脸全图，任意表情，漫射光
+  \begin{figure}[H]
+    \centering
+    \includegraphics[keepaspectratio=true,
+    scale=0.33]{images/gs0/gs5.jpg}
+  \end{figure}
+\end{itemize}
 
 \section{测试结果及分析}
 \label{sec:result-and-analysis}
@@ -159,7 +208,7 @@
   \label{fig:speckle-gs0-scatter-plot}
 \end{figure}
 
-为不失一般性，选取37张图片做同样处理，统计出散点图，如图
+为不失一般性，选取标准图集做同样处理，统计出散点图，如图
 \begin{figure}[H]
   \centering
   \includegraphics[keepaspectratio=true,
@@ -210,7 +259,7 @@
   \label{fig:quality-gs0-sub-scatter-plot}
 \end{figure}
 
-为不失一般性，选取37张图片做同样处理，统计出散点图，如图
+为不失一般性，选取标准图集做同样处理，统计出散点图，如图
 \begin{figure}[H]
   \centering
   \includegraphics[keepaspectratio=true,
@@ -235,9 +284,9 @@
 
 使用gs0.jpg做10次检索，分别记录：
 \begin{itemize}
-\item 检索耗时$t_r$：服务器比对所有特征向量，获得结果集所花时间；
-\item 检索结束耗时$t_a$：客户端从点击\texttt{Retrieve}按钮开始到所有结
-  果图像获取结束所花时间。
+  \item \textbf{检索耗时$t_r$}：服务器比对所有特征向量，获得结果集所花时间；
+  \item \textbf{检索结束耗时$t_a$}：客户端从点击\texttt{Retrieve}按钮开始到所有结
+    果图像获取结束所花时间。
 \end{itemize}
 
 测试结果如下表
@@ -246,3 +295,36 @@
 
 该表显示出本系统的检索耗时$t_r$较小，即服务端检索性能较好，但检索结束
 耗时$t_a$高出$t_r$很多，原因可能是base64加解码与图像加解密比较耗时。
+
+\subsection{系统检索正确率}
+\label{sec:sys-retrieval-correct-rate}
+
+取标准图集中的每张图片做检索，分别统计出返回的结果集（距离
+前10小\footnote{由于原图与原图自己距离为0，所以实际有效结果为前9小，检
+  索出的类型也只有类型2到类型6}）中
+
+\begin{itemize}
+  \item 与原图为同一人的个数$n_{count}$；
+  \item 结果集中与原图为同一人的结果的最小序号$n_{label}$；
+  \item 检索出的图片类型编号，其中编号按与原图的距离大小升序排序。
+\end{itemize}
+
+
+测试结果如下表
+
+\newpage
+\input{tables/sys-retrieval-correct-rate}
+
+分析上表数据，可得：
+\begin{itemize}
+  \item 检索成功次数31，失败次数（无与原图相关的结果）9，成功率$77.5\%$；
+  \item 若检索成功，平均相关结果数$2.58$个；
+  \item 平均最小编号$2.48$；
+\end{itemize}
+
+另外，各图片类型统计如下表
+
+\input{tables/sys-retrieved-img-type}
+
+可以看出背景光源对本算法影响较大，人物表情与脸部所朝方向影响稍小。
+
