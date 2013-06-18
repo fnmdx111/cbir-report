@@ -1,0 +1,39 @@
+\documentclass[utf8， 12pt, titlepage, a4paper]{ctexart}
+\usepackage{fontspec}
+
+\title{生物特征图像安全检索系统使用手册}
+
+\begin{document}
+\maketitle
+\section*{客户端}
+\begin{itemize}
+\item 从二进制文件执行（注意仅支持Windows平台）：解压缩\texttt{客户端
+    可执行程序.7z}后，运行\texttt{CBIRClient/CBIRClient.exe}
+\item 从源代码执行：解压缩\texttt{客户端源代码.7z}后，执行
+  \texttt{python ui.py}。在执行前，请先确保以下库已安装
+  \begin{itemize}
+  \item OpenCV
+  \item NumPy
+  \item requests
+  \item PyQt
+  \end{itemize}
+\end{itemize}
+
+\section*{服务端}
+服务端仅提供了从源代码执行的方法：解压缩\texttt{服务端可执行代
+  码.7z}（此压缩包已附测试用数据库）后，或解压缩\texttt{服务端源代
+  码.7z}，并解压缩\texttt{样例图像集及数据库文件执行.7z}至同一目录下
+后，执行\texttt{python server.py}。在执行前，请先确保
+\begin{itemize}
+\item 解压缩目标目录路径不含有utf-8编码以外的字符，否则日志功能将无法
+  使用
+\item 以下库已安装
+  \begin{itemize}
+  \item OpenCV
+  \item NumPy
+  \item SQLAlchemy
+  \end{itemize}
+
+\end{itemize}
+
+\end{document}
